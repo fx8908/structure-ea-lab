@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="USDJPYの相場構造に合わせて検証するMT4 EA β版。LONG V14 / SHORT V6と、GPT向け再最適化ガイドを収録予定。">
+  <meta name="theme-color" content="#07131f">
+  <title>Structure EA Lab | MT4 EA β版</title>
+  <style>
+    :root{--ink:#0b1724;--muted:#5d6a78;--line:#dce5ea;--paper:#f5f8fa;--white:#fff;--navy:#07131f;--blue:#0d6efd;--cyan:#19c6bb;--green:#0c9b72;--red:#e44d5e;--shadow:0 22px 70px rgba(7,19,31,.12)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}a{color:inherit}img{display:block;max-width:100%}button,a{touch-action:manipulation}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#087e77;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.eyebrow:before{content:"";width:20px;height:2px;background:var(--cyan)}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(38px,7.2vw,78px);line-height:1.04;letter-spacing:-.045em;margin:20px 0 24px}h2{font-size:clamp(30px,5vw,50px);line-height:1.15;letter-spacing:-.035em;margin:14px 0 18px}h3{font-size:20px;line-height:1.4}.lead{font-size:clamp(16px,2vw,20px);color:#c3cfda;max-width:680px}.fine{font-size:12px;color:var(--muted)}
+    .topbar{position:absolute;z-index:2;top:0;left:0;right:0;padding:22px 0;color:white}.topbar .wrap{display:flex;justify-content:space-between;align-items:center}.brand{font-size:14px;font-weight:900;letter-spacing:.12em}.brand span{color:var(--cyan)}.top-link{font-size:12px;text-decoration:none;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:9px 14px}
+    .hero{position:relative;overflow:hidden;background:var(--navy);color:white;padding:126px 0 70px}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 24%,rgba(25,198,187,.18),transparent 28%),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:auto,44px 44px,44px 44px}.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}.hero h1 em{font-style:normal;color:var(--cyan)}.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0}.tag{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);border-radius:999px;padding:7px 11px;font-size:12px;color:#d5e0e9}.cta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.cta{display:inline-flex;justify-content:center;align-items:center;min-height:56px;padding:0 24px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--cyan),#2ed69d);color:#04130f;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 14px 34px rgba(25,198,187,.22);cursor:pointer}.cta.secondary{background:transparent;color:white;border:1px solid rgba(255,255,255,.25);box-shadow:none}.hero-card{background:white;border-radius:20px;padding:10px;color:var(--ink);box-shadow:0 30px 90px rgba(0,0,0,.35);transform:rotate(1deg)}.hero-card img{border-radius:13px;aspect-ratio:1.55;object-fit:cover}.hero-card-info{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:13px 9px 8px}.quote{font-size:12px;color:var(--muted)}.price{font-size:24px;font-weight:900;letter-spacing:-.04em;white-space:nowrap}
+    .trust{background:white;border-bottom:1px solid var(--line)}.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}.trust-item{padding:24px 18px;border-right:1px solid var(--line)}.trust-item:first-child{padding-left:0}.trust-item:last-child{border-right:0}.trust-item b{display:block;font-size:15px}.trust-item span{font-size:12px;color:var(--muted)}
+    section{padding:92px 0}.section-head{max-width:720px;margin-bottom:40px}.section-head p{color:var(--muted)}.logic-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.logic{position:relative;overflow:hidden;background:white;border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:0 12px 44px rgba(7,19,31,.05)}.logic:after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:rgba(25,198,187,.09)}.logic.short:after{background:rgba(228,77,94,.08)}.logic-label{font-size:12px;font-weight:900;letter-spacing:.16em;color:var(--green)}.logic.short .logic-label{color:var(--red)}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:26px 0}.step{position:relative;padding:12px 8px;border-radius:9px;background:var(--paper);font-size:11px;text-align:center;font-weight:800}.step:not(:last-child):after{content:"›";position:absolute;right:-7px;color:#8c9aa6}.logic ul{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+    .market{background:#eaf0f3}.market-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:32px;align-items:center}.market-copy{background:var(--navy);color:white;padding:36px;border-radius:20px}.market-copy p{color:#bdc9d4}.warning{margin-top:22px;padding:16px;border-left:3px solid #f2c94c;background:rgba(242,201,76,.09);font-size:13px;color:#e5d597}.chart-stack{display:grid;grid-template-columns:1fr 1fr;gap:10px}.chart-stack button{padding:0;border:0;background:white;border-radius:12px;overflow:hidden;cursor:zoom-in;box-shadow:0 10px 30px rgba(7,19,31,.08)}.chart-stack img{aspect-ratio:1.45;object-fit:cover}.chart-stack button:first-child{grid-column:1/-1}.chart-stack button:first-child img{aspect-ratio:2.3}
+    .inside-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.inside{padding:26px;border-top:3px solid var(--cyan);background:white;border-radius:0 0 16px 16px;box-shadow:0 12px 38px rgba(7,19,31,.05)}.inside .num{font-variant-numeric:tabular-nums;color:#93a3af;font-weight:900}.inside p{color:var(--muted);font-size:14px;margin-bottom:0}
+    .risk{background:white}.risk-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.risk-item{border:1px solid var(--line);border-radius:16px;padding:22px}.risk-item b{display:block;margin-bottom:6px}.risk-item p{font-size:13px;color:var(--muted);margin:0}.risk-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#e8faf7;color:#087e77;font-weight:900;margin-bottom:16px}
+    .offer{background:var(--navy);color:white}.offer-card{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;border:1px solid rgba(255,255,255,.13);background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border-radius:24px;padding:42px}.offer-card p{color:#bdc9d4}.offer-price small{display:block;font-size:12px;color:#a7b6c3}.offer-price strong{font-size:62px;line-height:1;letter-spacing:-.06em}.pay-list{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0}.pay{background:white;color:#182432;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:800}.offer-action{min-width:290px}.offer-action .cta{width:100%}.offer-action .fine{color:#91a1ae;text-align:center;margin:12px 0 0}
+    .faq{max-width:820px}.faq details{background:white;border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:0 20px}.faq summary{cursor:pointer;font-weight:800;padding:19px 34px 19px 0;list-style:none;position:relative}.faq summary:after{content:"＋";position:absolute;right:0;color:var(--blue)}.faq details[open] summary:after{content:"−"}.faq details p{padding:0 0 18px;color:var(--muted);font-size:14px;margin:0}
+    footer{padding:36px 0 110px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.footer-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}.legal{max-width:760px}.footer-links{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}.footer-links a{font-weight:800;color:var(--ink);text-underline-offset:3px}.sticky{display:none}.modal{position:fixed;z-index:20;inset:0;background:rgba(4,10,16,.86);padding:18px;place-items:center}.modal[hidden]{display:none}.modal-view{max-width:1180px;width:100%;position:relative}.modal img{width:100%;max-height:86vh;object-fit:contain;border-radius:12px}.modal-close{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;border-radius:50%;background:white;font-size:24px;cursor:pointer}
+    @media(max-width:820px){.wrap{width:min(100% - 28px,680px)}.top-link{display:none}.hero{padding:106px 0 52px}.hero-grid,.market-grid,.offer-card{grid-template-columns:1fr}.hero-grid{gap:36px}.hero-card{transform:none}.trust .wrap{grid-template-columns:1fr 1fr}.trust-item{padding:18px 12px}.trust-item:nth-child(2){border-right:0}.trust-item:first-child{padding-left:12px}.trust-item:nth-child(-n+2){border-bottom:1px solid var(--line)}section{padding:68px 0}.logic-grid,.inside-grid,.risk-list{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}.step:nth-child(2):after{display:none}.chart-stack{grid-template-columns:1fr}.chart-stack button:first-child{grid-column:auto}.chart-stack button:first-child img,.chart-stack img{aspect-ratio:1.45}.offer-card{padding:26px 20px}.offer-action{min-width:0}.offer-price strong{font-size:54px}.sticky{display:grid;position:fixed;z-index:10;left:10px;right:10px;bottom:10px;grid-template-columns:1fr auto;align-items:center;background:rgba(7,19,31,.96);color:white;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:9px 9px 9px 15px;box-shadow:0 15px 50px rgba(0,0,0,.34);backdrop-filter:blur(10px)}.sticky span{font-size:12px;color:#b9c6d1}.sticky b{display:block;font-size:17px}.sticky .cta{min-height:46px;padding:0 18px;font-size:14px}footer{padding-bottom:120px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="wrap"><div class="brand">STRUCTURE <span>EA LAB</span></div><a class="top-link" href="#risk">リスクと前提を確認</a></div></header>
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">MT4 EA / Forward Test Beta</span>
+          <h1>万能をうたわない。<br><em>相場構造</em>を検証する。</h1>
+          <p class="lead">USDJPYの流動性・構造転換・重要水準をもとに、LONGとSHORTを別設計した戦術型EA。GPT向け再最適化ガイド付きのβ版です。</p>
+          <div class="hero-tags"><span class="tag">USDJPY専用</span><span class="tag">MT4対応</span><span class="tag">買い切り</span><span class="tag">個別投資助言なし</span></div>
+          <div class="cta-row"><a class="cta buy-link" href="#purchase">β版を500円で見る</a><a class="cta secondary" href="#logic">ロジックを確認</a></div>
+        </div>
+        <div class="hero-card">
+          <img src="assets/chart-h4.png" alt="USDJPY 4時間足チャート">
+          <div class="hero-card-info"><div class="quote">2026.08.14 market snapshot<br><b>H4 / H1 / M15 / M5で構造を確認</b></div><div class="price">¥500</div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="trust"><div class="wrap"><div class="trust-item"><b>LONG V14</b><span>Sweep起点の構造型</span></div><div class="trust-item"><b>SHORT V6</b><span>下抜け選別型</span></div><div class="trust-item"><b>Risk control</b><span>日次損失・Spread制御</span></div><div class="trust-item"><b>GPT guide</b><span>未来の再調整手順</span></div></div></div>
+
+    <section id="logic"><div class="wrap"><div class="section-head"><span class="eyebrow">Two engines</span><h2>方向を決め打ちせず、<br>役割を分ける。</h2><p>LONGとSHORTは同じ条件の裏返しではありません。それぞれ異なる相場現象を、独立したロジックで扱います。</p></div><div class="logic-grid">
+      <article class="logic"><div class="logic-label">LONG / V14</div><h3>戻りを待つ、構造確認型</h3><div class="flow"><div class="step">Sweep</div><div class="step">M5 MSB</div><div class="step">OB</div><div class="step">Retest</div></div><ul><li>M15で流動性の掃除を認識</li><li>M5の構造転換と勢いを確認</li><li>Order Blockへ戻るまで追わない</li><li>広すぎるOBを品質フィルターで除外</li></ul></article>
+      <article class="logic short"><div class="logic-label">SHORT / V6 ATR-FILTER</div><h3>下抜けを選ぶ、追随型</h3><div class="flow"><div class="step">Support</div><div class="step">Break</div><div class="step">ATR判定</div><div class="step">Follow</div></div><ul><li>M5終値で重要サポート下抜けを確認</li><li>足の勢い・ATR・追いかけ距離を選別</li><li>小さめのリスクでBREAKに追随</li><li>水準を明確に取り戻したら撤退</li></ul></article>
+    </div></div></section>
+
+    <section class="market"><div class="wrap market-grid"><div class="market-copy"><span class="eyebrow">Market dependent</span><h2>数値ではなく、<br>骨格を残す。</h2><p>現在の159円台に合わせた価格水準やATR閾値を、未来へそのまま持ち越す設計ではありません。上位足から相場レジームを見直し、変更は原則1項目ずつ。ログで理由を説明できることを重視します。</p><div class="warning"><b>重要:</b> 現行版の取引サンプルは少なく、β版は完成済みの万能EAではありません。フォワード検証を前提にしてください。</div></div><div class="chart-stack">
+      <button type="button" data-chart="assets/chart-h1.png" aria-label="1時間足チャートを拡大"><img src="assets/chart-h1.png" alt="USDJPY 1時間足チャート"></button>
+      <button type="button" data-chart="assets/chart-m30.png" aria-label="30分足チャートを拡大"><img src="assets/chart-m30.png" alt="USDJPY 30分足チャート"></button>
+      <button type="button" data-chart="assets/chart-m15.png" aria-label="15分足チャートを拡大"><img src="assets/chart-m15.png" alt="USDJPY 15分足チャート"></button>
+      <button type="button" data-chart="assets/chart-m5.png" aria-label="5分足チャートを拡大"><img src="assets/chart-m5.png" alt="USDJPY 5分足チャート"></button>
+    </div></div></section>
+
+    <section><div class="wrap"><div class="section-head"><span class="eyebrow">What is included</span><h2>EAだけで終わらせない。</h2><p>相場環境が変わったときに「なぜ変えるのか」を残せるよう、検証手順までセットにした商品設計です。</p></div><div class="inside-grid"><article class="inside"><div class="num">01</div><h3>MT4 EA β版</h3><p>USDJPY向けLONG / SHORTエンジン。導入前に対応環境と商品ファイルの詳細をご確認ください。</p></article><article class="inside"><div class="num">02</div><h3>運用説明書</h3><p>固定すべきロジック思想、再設定する価格帯、安全装置、検証の順序を整理。</p></article><article class="inside"><div class="num">03</div><h3>GPT向け引継ぎ</h3><p>最新チャート・ログを渡して、過剰最適化を避けながら再調整するためのプロンプト付き。</p></article></div></div></section>
+
+    <section class="risk" id="risk"><div class="wrap"><div class="section-head"><span class="eyebrow">Risk first</span><h2>止まる仕組みも、<br>ロジックの一部。</h2></div><div class="risk-list"><article class="risk-item"><div class="risk-icon">%</div><b>1回のリスクを制御</b><p>現行基準はLONG 0.50%、SHORT BREAK 0.25%。設定や相場環境により結果は変わります。</p></article><article class="risk-item"><div class="risk-icon">×2</div><b>日次の損失制限</b><p>最大2敗、日次損失率1.50%を基準に新規取引を停止する安全設計。</p></article><article class="risk-item"><div class="risk-icon">1R</div><b>建値移動</b><p>1R到達後にBE+0.5pipへ移動する設計。約定環境により滑りや差異が生じます。</p></article><article class="risk-item"><div class="risk-icon">SP</div><b>Spreadフィルター</b><p>現行基準3.0pips。スプレッド悪化時の無理な新規取引を避けます。</p></article><article class="risk-item"><div class="risk-icon">LOG</div><b>フォレンジックログ</b><p>エントリーの背景を記録し、後から判断過程を再構成しやすくします。</p></article><article class="risk-item"><div class="risk-icon">GPT</div><b>変更は1項目ずつ</b><p>勝ちだけを残す微調整を避け、ベースラインを保存して比較します。</p></article></div></div></section>
+
+    <section class="offer" id="purchase"><div class="wrap"><div class="offer-card"><div><span class="eyebrow">Beta price</span><div class="offer-price"><small>買い切り・β検証協力価格</small><strong>¥500</strong><small>消費税込み</small></div><div class="pay-list"><span class="pay">クレジットカード</span><span class="pay">Stripe決済</span></div><p>価格より先に、上のロジック・相場依存性・リスク説明をご確認ください。決済確認後、2営業日以内に決済画面で入力したメールアドレスへ受取方法をご案内します。</p></div><div class="offer-action"><a class="cta payment-link" href="https://buy.stripe.com/5kQ14m31E5At3mz6Rzd3i00" aria-label="Stripeの購入手続きへ進む">購入手続きへ進む</a><p class="fine">Stripeの安全な決済画面へ移動します</p></div></div></div></section>
+
+    <section><div class="wrap faq"><div class="section-head"><span class="eyebrow">FAQ</span><h2>購入前の確認</h2></div>
+      <details><summary>利益は保証されますか？</summary><p>保証されません。本商品は自動売買プログラムであり、相場・スプレッド・約定・設定・ブローカー環境により損失が生じます。現行版はサンプル数の少ないβ検証版です。</p></details>
+      <details><summary>一度設定すれば永久に使えますか？</summary><p>いいえ。絶対価格の水準やATR閾値は相場環境に依存します。価格帯や構造が変わった場合は、付属ガイドに沿って再検証・再設定が必要です。</p></details>
+      <details><summary>個別に売買判断を教えてもらえますか？</summary><p>個別の相場判断・投資助言・運用代行は含みません。EA本体、固定マニュアル、GPT向け再最適化手順の提供を想定しています。</p></details>
+      <details><summary>どの環境で動きますか？</summary><p>MT4向けです。口座種別、シンボル表記、Digits、スプレッド等により挙動が変わるため、最初はデモ口座で確認してください。最終的な対応OS・納品ファイル・サポート範囲は販売開始前に確定してください。</p></details>
+      <details><summary>返品はできますか？</summary><p>デジタル商品の性質上、提供後の購入者都合による返品・返金には対応していません。商品に重大な不具合がある場合は、提供日から7日以内にお問い合わせください。状況を確認し、修正版の提供、代替品の提供、または返金のいずれかで対応します。</p></details>
+    </div></section>
+  </main>
+  <footer><div class="wrap footer-grid"><div class="brand" style="color:#0b1724">STRUCTURE <span>EA LAB</span></div><div class="legal"><nav class="footer-links" aria-label="法的情報"><a href="terms.html">利用規約</a><a href="privacy.html">プライバシーポリシー</a><a href="tokusho.html">特定商取引法に基づく表記</a><a href="mailto:yahoo-paradise@ahk.jp">お問い合わせ</a></nav>本ページは投資助言・利益保証を行うものではありません。FX取引には元本を超える損失を含むリスクがあります。必ずデモ環境で動作を確認し、ご自身の判断と責任で使用してください。掲載チャートはロジックの背景説明を目的とした市場スナップショットで、EAの取引実績ではありません。<br><br>© 2026 Structure EA Lab</div></div></footer>
+
+  <div class="sticky"><div><span>β検証協力価格</span><b>500円</b></div><a class="cta buy-link" href="#purchase">内容を確認</a></div>
+  <div class="modal" hidden role="dialog" aria-modal="true" aria-label="チャート拡大表示"><div class="modal-view"><button class="modal-close" aria-label="閉じる">×</button><img src="" alt="拡大したUSDJPYチャート"></div></div>
+  <script>
+    const payment = document.querySelector('.payment-link');
+    payment.addEventListener('click', () => {});
+    const modal = document.querySelector('.modal');
+    const modalImage = modal.querySelector('img');
+    document.querySelectorAll('[data-chart]').forEach((button) => button.addEventListener('click', () => {
+      modalImage.src = button.dataset.chart;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.modal-close').focus();
+    }));
+    const closeModal = () => { modal.hidden = true; document.body.style.overflow = ''; };
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !modal.hidden) closeModal(); });
+  </script>
+</body>
+</html>
